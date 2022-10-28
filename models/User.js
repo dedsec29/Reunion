@@ -40,6 +40,7 @@ const user_schema = mongoose.Schema(
   { timestamps: true }
 );
 
+// Payload contains: Only _id
 user_schema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user.id.toString() }, process.env.TOKEN_SECRET);
