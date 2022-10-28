@@ -51,6 +51,7 @@ exports.followUser = async (req, res) => {
   const to_follow = await User.findById(req.params.id);
   if (!user || !to_follow) {
     return res.status(404).json({
+      success: false,
       message: "No such user exists",
     });
   }
@@ -87,12 +88,14 @@ exports.unfollowUser = async (req, res) => {
   const to_unfollow = await User.findById(req.params.id);
   if (!user || !to_unfollow) {
     return res.status(404).json({
+      success: false,
       message: "No such user exists",
     });
   }
 
   if (user._id.equals(to_unfollow._id)) {
     return res.status(400).json({
+      success: false,
       message: "Cannot unfollow oneself",
     });
   }
@@ -111,6 +114,25 @@ exports.unfollowUser = async (req, res) => {
     success: true,
     unfollowed: to_unfollow._id,
     unfollowed_by: user._id,
+  });
+};
+
+// View Own Profile
+// @route GET /api/user
+exports.viewProfile = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "No such user exists",
+    });
+  }
+  console.log(user);
+  res.status(200).json({
+    success: true,
+    user_name: user.user_name,
+    followers: user.followers.length,
+    followings: user.following.length,
   });
 };
 
