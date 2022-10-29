@@ -7,6 +7,8 @@ const {
   deletePost,
   likePost,
   unlikePost,
+  viewPost,
+  getAllPosts,
 } = require("../controllers/post");
 
 // Create Post
@@ -20,5 +22,11 @@ router.post("/like/:id", auth.verifyjwt, likePost);
 
 // Unlike Post
 router.post("/unlike/:id", auth.verifyjwt, unlikePost);
+
+// View Post
+router.get("/:id", viewPost);
+
+// View All Posts
+router.get("/", getAllPosts);
 
 module.exports = router;

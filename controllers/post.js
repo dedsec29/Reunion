@@ -32,6 +32,7 @@ exports.deletePost = async (req, res) => {
       });
     } else {
       res.status(200).json({
+        success: true,
         message: "Post has been deleted",
         data: post,
       });
@@ -77,6 +78,64 @@ exports.unlikePost = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Post unliked",
+    });
+  } catch (e) {
+    res.status(400).json({
+      success: false,
+      message: e.message,
+    });
+  }
+};
+
+// View Post
+// @route GET /api/posts/:id
+exports.viewPost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).populate("comments");
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post does not exist",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      number_of_likes: post.liked_by.length,
+      number_of_comments: post.comments.length,
+      comments: post.comments,
+    });
+  } catch (e) {
+    res.status(400).json({
+      success: false,
+      message: e.message,
+    });
+  }
+};
+
+// View All Posts
+// @route GET /api/posts/
+exports.getAllPosts = async (req, res) => {
+  try {
+    let posts = await Post.find()
+      .populate("comments", "content")
+      .sort({ createdAt: 1 });
+
+    let all_posts = [];
+    for (let i of posts) {
+      let post = {};
+      post["id"] = i._id;
+      post["title"] = i.title;
+      post["desc"] = i.description;
+      post["created_at"] = i.createdAt;
+      post["comments"] = i.comments;
+      post["likes"] = i.liked_by.length;
+      all_posts.push(post);
+    }
+
+    res.status(200).json({
+      success: true,
+      all_posts,
     });
   } catch (e) {
     res.status(400).json({

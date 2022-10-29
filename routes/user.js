@@ -24,9 +24,9 @@ router.post("/follow/:id", auth.verifyjwt, followUser);
 router.post("/unfollow/:id", auth.verifyjwt, unfollowUser);
 
 // View Profile
-router.get("/", auth.verifyjwt, viewProfile);
+router.get("/:id", auth.verifyjwt, viewProfile);
 
 // Get All Users (Test)
-router.get("/all", getAll);
+router.get("/", getAll);
 
 module.exports = router;
