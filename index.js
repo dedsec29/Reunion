@@ -7,18 +7,24 @@ const mongoose = require("mongoose");
 // Remove in Production
 app.use(morgan("dev"));
 
-const setupEnv = require("./config/env");
-const dbConnection = require("./config/db");
+const setup_env = require("./config/env");
+const db_connection = require("./config/db");
 
 // import routes
+const user_route = require("./routes/user");
+const post_route = require("./routes/post");
+const comment_route = require("./routes/comment");
 
-setupEnv();
-dbConnection();
+setup_env();
+db_connection();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Initializing routes
+app.use("/api/user", user_route);
+app.use("/api/posts", post_route);
+app.use("/api/comment", comment_route);
 
 // Error Handling
 app.use((req, res, next) => {
