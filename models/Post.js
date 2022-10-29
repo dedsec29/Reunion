@@ -14,11 +14,13 @@ const post_schema = mongoose.Schema(
         ref: "Comment",
       },
     ],
-    // "liked by" not needed to be explicitly maintained
-    likes: {
-      type: Number,
-      default: 0,
-    },
+    liked_by: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true }
 );
