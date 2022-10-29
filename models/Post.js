@@ -6,7 +6,7 @@ const post_schema = mongoose.Schema(
       type: String,
       required: [true, "Title cannot be blank"],
     },
-    desc: { type: String },
+    description: { type: String },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
