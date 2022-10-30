@@ -26,6 +26,11 @@ app.use("/api/user", user_route);
 app.use("/api/posts", post_route);
 app.use("/api/comment", comment_route);
 
+// Health Check
+app.get("/", (req, res) => {
+  res.status(200).send("Hello World");
+});
+
 // Error Handling
 app.use((req, res, next) => {
   const error = new Error("Not found");
