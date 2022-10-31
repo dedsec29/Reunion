@@ -157,7 +157,7 @@ exports.viewProfile = async (req, res) => {
 };
 
 // Just for testing
-// @route GET /api/user/all
+// @route GET /api/user/
 exports.getAll = async (req, res) => {
   try {
     const allUsers = await User.find();
